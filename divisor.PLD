@@ -1,0 +1,97 @@
+Name     divisor ;
+PartNo   00 ;
+Date     27/05/2020 ;
+Revision 01 ;
+Designer Engineer ;
+Company  jlrey ;
+Assembly None ;
+Location  ;
+Device   g22v10 ;
+
+/* *************** INPUT PINS *********************/
+PIN    1 = clk                        ; /*                                 */ 
+PIN    2 = c0                        ; /*                                 */ 
+PIN    3 = c1                        ; /*                                 */ 
+PIN    4 = c2                        ; /*                                 */ 
+
+
+/* *************** OUTPUT PINS *********************/
+PIN    16 = q                        ; /*                                 */ 
+
+PINNODE    23 = a0                        ; /*                                 */ 
+PINNODE    17 = a1                        ; /*                                 */ 
+PINNODE    21 = a2                        ; /*                                 */ 
+PINNODE    20 = a3                        ; /*                                 */ 
+
+TABLE c2,c1,c0 => m7..m0 {
+    'b'000 => 'b'00000001;
+    'b'001 => 'b'00000010;
+    'b'010 => 'b'00000100;
+    'b'011 => 'b'00001000;
+    'b'100 => 'b'00010000;
+    'b'101 => 'b'00100000;
+    'b'110 => 'b'01000000;
+    'b'111 => 'b'10000000;}
+
+$define s0  'b'0000
+$define s1  'b'0001
+$define s2  'b'0010
+$define s3  'b'0011
+$define s4  'b'0100
+$define s5  'b'0101
+$define s6  'b'0110
+$define s7  'b'0111
+$define s8  'b'1000
+$define s9  'b'1001
+$define s10 'b'1010
+$define s11 'b'1011
+$define s12 'b'1100
+$define s13 'b'1101
+$define s14 'b'1110
+$define s15 'b'1111
+
+
+sequence a3,a2,a1,a0
+{
+present s0    next s1;
+present s1    next s2;
+present s2    next s3;
+present s3    next s4;
+present s4    next s5;
+present s5 	if m2 next s0;
+	default next s6;
+present s6 	next s7;
+present s7 	next s8;
+present s8 	next s9;
+present s9 	if m4 next s0;
+	default next s10;
+present s10 	next s11;
+present s11 	if m5 next s0;
+	default next s12;
+present s12 	next s13;
+present s13 	if m6 next s0;
+	default next s14;
+present s14 	next s15;
+present s15 	next s0;
+}
+
+n2=a0;
+n4=a1;
+n6=a2;
+n8=a2;
+n10=a3;
+n12=a3;
+n14=a3;
+n16=a3;
+
+
+q=n2&m0#n4&m1#n6&m2#n8&m3#n10&m4#n12&m5#n14&m6#n16&m7;
+
+a0.ar='b'0;
+a0.sp='b'0;
+a1.ar='b'0;
+a1.sp='b'0;
+a2.ar='b'0;
+a2.sp='b'0;
+a3.ar='b'0;
+a3.sp='b'0;
